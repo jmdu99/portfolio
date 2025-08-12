@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- ======================================================
+    ONE-FILE PORTFOLIO — GitHub Pages ready
+    · Sticky navbar + mobile menu
+    · 5 tabs with smooth switching (no page reload)
+    · “People online” pop-up
+    · Filterable project grids
+    · AOS fade-up animations
+  ====================================================== -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>José Manuel — Freelance Data Engineer</title>
+  <meta name="description" content="Freelance Data Engineer portfolio — pipelines, streaming, ELT/ETL, MLOps, and AI/NLP projects." />
+
+  <!-- External libs -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css"/>
+
+  <style>
+    :root{
+      --navy:#003366; --ink:#2C2C2C; --muted:#555; --muted-2:#777;
+      --bg:#FFFFFF; --panel:#F7F9FC; --chip:#EEF2F6; --border:#E2E8F0;
+      --shadow:0 2px 10px rgba(2, 6, 23, .06);
+      --green:#2E7D32; --green-900:#1B5E20; --green-50:#EDF7ED; --green-100:#CDE6CD;
+      --gold:#C9A227;
+    }
+
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',sans-serif;color:var(--ink);background:var(--bg)}
+    img{max-width:100%;display:block}
+    a{text-decoration:none;color:inherit}
+    ::selection{background:rgba(201,162,39,.25)}
+
+    .container{max-width:1200px;margin:0 auto;padding:0 1.25rem}
+    .section{padding:3rem 0}
+    @media(max-width:768px){.section{padding:2rem 0}}
+
+    /* Navbar */
+    .navbar{position:sticky;top:0;left:0;right:0;background:#FFF;border-bottom:1px solid var(--border);z-index:999;backdrop-filter:saturate(1.2) blur(2px)}
+    .navbar-inner{display:flex;justify-content:space-between;align-items:center;height:60px}
+    .brand{font-weight:700;font-size:18px;color:var(--navy);letter-spacing:.2px}
+    .nav-links{display:flex;gap:2rem;list-style:none}
+    .nav-link{font-size:16px;font-weight:500;color:var(--ink);border-bottom:2px solid transparent;transition:color .2s,border-color .2s}
+    .nav-link:hover,.nav-link.active{color:var(--green);border-color:var(--green)}
+    .nav-link:focus-visible,.btn:focus-visible,.filter-btn:focus-visible,.btn-primary:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:6px}
+    #nav-toggle{display:none;background:none;border:none;cursor:pointer}
+    #nav-toggle span{width:24px;height:2px;background:var(--ink);margin:5px 0;transition:transform .3s}
+    @media(max-width:768px){
+      #nav-toggle{display:block}
+      .nav-links{position:fixed;top:60px;right:0;flex-direction:column;background:#FFF;width:70%;max-width:300px;height:calc(100vh - 60px);padding:2rem;transform:translateX(100%);transition:transform .3s;overflow-y:auto;border-left:1px solid var(--border)}
+      .nav-links.open{transform:translateX(0)}
+    }
+
+    /* Pop-up */
+    .popup-live{
+      position:fixed;bottom:20px;right:20px;background:var(--green-50);color:var(--green-900);
+      padding:.8rem 1.2rem;font-weight:600;font-size:16px;border:1px solid var(--green-100);
+      border-radius:10px;box-shadow:var(--shadow);display:none;z-index:1000
+    }
+
+    /* Tabs */
+    .tab-panel{display:none;animation:fadeUp .3s ease forwards}
+    .tab-panel.active{display:block}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+    /* Shared */
+    .h2-title{font-size:32px;color:var(--navy);margin-bottom:1.5rem;font-weight:700;letter-spacing:.2px;position:relative}
+    .h2-title::after{content:"";display:block;width:56px;height:3px;border-radius:2px;background:linear-gradient(90deg,var(--gold),rgba(201,162,39,.35));margin-top:.5rem}
+    .bullets{display:grid;gap:.75rem;list-style:none}
+    .bullets li{display:flex;gap:.5rem;font-size:18px}
+    .bullets li:before{content:"✓";color:var(--green);font-weight:700}
+
+    .testimonials{display:grid;gap:1.5rem}
+    @media(min-width:640px){.testimonials{grid-template-columns:repeat(2,1fr)}}
+    .card{background:#FFF;border:1px solid var(--border);border-radius:12px;padding:1.25rem;box-shadow:var(--shadow)}
+    .card-header{display:flex;gap:.75rem;align-items:center;margin-bottom:.6rem}
+    .card-header img{width:48px;height:48px;border-radius:50%}
+    .card-header .meta{font-size:14px;color:var(--muted)}
+    .card p{font-size:16px;line-height:1.5}
+
+    .cred-grid{display:grid;gap:1rem}
+    @media(min-width:640px){.cred-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(min-width:960px){.cred-grid{grid-template-columns:repeat(3,1fr)}}
+    .cred-item{background:#FFF;border:1px solid var(--border);border-radius:10px;overflow:hidden;text-align:center;box-shadow:var(--shadow)}
+    .cred-item img{width:80px;margin:1rem auto;display:block}
+    .cred-item span{display:block;padding:.6rem;font-size:14px;background:var(--panel)}
+    .cred-desc{background:#FFF;border:1px dashed var(--border);border-radius:10px;padding:.75rem}
+
+    .stack-list{display:flex;flex-wrap:wrap;gap:1rem;font-size:16px;color:var(--muted);margin-bottom:1rem}
+    .stack-list span{background:var(--chip);padding:.5rem 1rem;border-radius:999px}
+
+    .filter-bar{display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:1.5rem}
+    .filter-btn{border:1px solid var(--border);background:#FFF;padding:.5rem .75rem;border-radius:10px;font-size:14px;cursor:pointer;transition:.2s}
+    .filter-btn.active,.filter-btn:hover{background:var(--green);color:#FFF;border-color:var(--green)}
+
+    .project-grid{display:grid;gap:1.5rem}
+    @media(min-width:640px){.project-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(min-width:1024px){.project-grid{grid-template-columns:repeat(3,1fr)}}
+    .project-card{background:#FFF;border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:box-shadow .2s}
+    .project-card:hover{box-shadow:0 6px 20px rgba(2,6,23,.08)}
+    .project-card img{width:100%;height:160px;object-fit:cover}
+    .project-body{padding:1rem}
+    .project-body h3{font-size:18px;margin-bottom:.25rem;color:var(--navy)}
+    .project-body .sector{font-size:12px;color:var(--muted-2);margin-bottom:.5rem;text-transform:uppercase;letter-spacing:.5px}
+    .project-body p{font-size:14px;margin-bottom:.75rem;min-height:44px}
+    .tags{display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:.75rem}
+    .tag{font-size:11px;background:var(--chip);padding:2px 6px;border-radius:6px}
+
+    .project-results{background:var(--panel);padding:1rem;border-radius:10px;margin:1rem 0;font-size:14px;line-height:1.55;border:1px solid var(--border)}
+    .project-results img{display:block;margin:.75rem auto;max-width:100%;border:1px solid var(--border);border-radius:6px;background:#FFF}
+
+    .btn{display:inline-block;font-size:14px;font-weight:700;color:var(--green);border:1.5px solid var(--green);padding:.4rem .85rem;border-radius:999px;transition:.2s}
+    .btn:hover{background:var(--green);color:#FFF}
+    .btn-primary{display:inline-block;background:var(--green);color:#FFF;font-size:16px;font-weight:700;padding:.75rem 1.25rem;border:none;border-radius:10px;cursor:pointer;transition:.2s}
+    .btn-primary:hover{background:var(--green-900)}
+
+    [style*="#4CAF50"]{color:var(--green) !important}
+
+    /* Work With Me spacing */
+    .spaced li{margin:.85rem 0}
+    .work-list li{display:flex;align-items:flex-start;gap:.5rem;font-size:16px}
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container navbar-inner">
+      <div class="brand">José Manuel — Freelance Data Engineer</div>
+      <button id="nav-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#" class="nav-link active" data-tab="about-tab">About Me</a></li>
+        <li><a href="#" class="nav-link" data-tab="stack-tab">Tech Stack</a></li>
+        <li><a href="#" class="nav-link" data-tab="personal-tab">Personal Projects</a></li>
+        <li><a href="#" class="nav-link" data-tab="client-tab">Client Projects</a></li>
+        <li><a href="#" class="nav-link" data-tab="hire-tab">Work With Me</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Pop-up -->
+  <div id="live-popup" class="popup-live"></div>
+
+  <!-- 1 · About Me -->
+  <section id="about-tab" class="tab-panel active section container" data-aos="fade-up">
+    <h2 class="h2-title">About Me</h2>
+    <ul class="bullets">
+      <li>Data Engineer with international experience in startups, big tech, and consultancies (2021–2024)</li>
+      <li>Since February 2025: remote freelance work for HealthTech and EdTech clients based in several countries</li>
+      <li>Passionate about continuous learning: Data Engineering bootcamp, MSc in Data Science, AWS Certified</li>
+      <li>Quick to adapt to different teams, environments, and tech stacks</li>
+      <li>Clear communicator with both technical and non-technical stakeholders in multicultural settings</li>
+      <li>I focus on collaborations where I can create real value and help projects succeed</li>
+    </ul>
+
+    <h3 style="margin-top:3rem;margin-bottom:1rem;color:#003366;font-weight:600">Testimonials</h3>
+    <div class="testimonials">
+      <div class="card">
+        <div class="card-header">
+          <img src="logos/slido.svg" alt="Slido logo">
+          <div class="meta"><strong>Andrej B.</strong><br>Head of Data Circus at Slido</div>
+        </div>
+        <p>⭐⭐⭐⭐⭐<br>“Jose executed the data migration from Gainsight CRM to the data warehouse with precision and zero downtime — coordinating across teams and time zones end-to-end.”</p>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <img src="logos/gsoc.svg" alt="Google Summer of Code logo">
+          <div class="meta"><strong>Julio H.</strong><br>Google Summer of Code Mentor, DBpedia</div>
+        </div>
+        <p>⭐⭐⭐⭐⭐<br>“During Google Summer of Code 2021, Jose was proactive, responsible, and solution-oriented while leading the DBpedia Spotlight dashboard.”</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:3rem;margin-bottom:1rem;color:#003366;font-weight:600">Credentials & Certificates</h3>
+    <div class="cred-grid" data-aos="fade-up" style="display:grid; grid-template-columns: repeat(2,1fr); gap:1rem; align-items:start;">
+      <!-- Row 1 -->
+      <div class="cred-item" style="display:flex; flex-direction:column; align-items:center;">
+        <img src="credentials/le_wagon_bootcamp.jpg" alt="Data Engineering Bootcamp at Le Wagon">
+        <span>Data Engineering Bootcamp at Le Wagon</span>
+      </div>
+      <div class="cred-item" style="display:flex; flex-direction:column; align-items:center;">
+        <img src="credentials/google_soc.jpg" alt="Google Summer of Code">
+        <span>Google Summer of Code</span>
+      </div>
+      <div class="cred-desc" style="grid-column:1/-1; text-align:center; font-size:14px; color:#555;">
+        <strong>Learning beyond the classroom and applying hands-on coding in real data projects.</strong>
+      </div>
+
+      <!-- Row 2 -->
+      <div class="cred-item" style="display:flex; flex-direction:column; align-items:center;">
+        <img src="credentials/amazon_letter.jpg" alt="Amazon Letter">
+        <span>Amazon Letter</span>
+      </div>
+      <div class="cred-item" style="display:flex; flex-direction:column; align-items:center;">
+        <img src="credentials/aws_ccp.png" alt="AWS Certified Cloud Practitioner">
+        <span>AWS Certified Cloud Practitioner</span>
+      </div>
+      <div class="cred-desc" style="grid-column:1/-1; text-align:center; font-size:14px; color:#555;">
+        <strong>My role and experience at Amazon Luxembourg.</strong>
+      </div>
+
+      <!-- Row 3 -->
+      <div class="cred-item" style="display:flex; flex-direction:column; align-items:center;">
+        <img src="credentials/bachelor_diploma.jpg" alt="Bachelor Diploma">
+        <span>Bachelor Diploma</span>
+      </div>
+      <div class="cred-item" style="display:flex; flex-direction:column; align-items:center;">
+        <img src="credentials/master_diploma.jpg" alt="Master Diploma">
+        <span>Master Diploma</span>
+      </div>
+      <div class="cred-desc" style="grid-column:1/-1; text-align:center; font-size:14px; color:#555;">
+        <strong>My official university education.</strong>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 · Tech Stack -->
+  <section id="stack-tab" class="tab-panel section container" data-aos="fade-up">
+    <h2 class="h2-title">Tech Stack</h2>
+
+    <!-- 1) Core Skills & Tooling -->
+    <div style="margin-bottom:2rem;">
+      <p style="font-weight:600;color:#003366;margin-bottom:.5rem;">Core Skills & Tooling</p>
+      <div class="stack-list">
+        <span>Python</span><span>SQL</span><span>Bash</span>
+        <span>Git</span><span>GitHub</span><span>Poetry</span><span>Pylint</span>
+        <span>Pandas</span><span>NumPy</span>
+      </div>
+    </div>
+
+    <!-- 2) Ingestion, Orchestration & Processing -->
+    <div style="margin-bottom:2rem;">
+      <p style="font-weight:600;color:#003366;margin-bottom:.5rem;">Ingestion, Orchestration & Processing</p>
+      <div class="stack-list">
+        <span>Apache Airflow</span><span>Cloud Composer (GCP)</span><span>MWAA (AWS)</span>
+        <span>dbt</span><span>Fivetran</span><span>Airbyte</span><span>Prefect</span>
+        <span>Apache Spark</span><span>PySpark</span><span>Apache Beam</span>
+        <span>Dataflow (GCP)</span><span>Dataproc (GCP)</span><span>Spark Structured Streaming</span>
+        <span>Apache Kafka</span><span>Google Pub/Sub</span><span>Apache NiFi</span>
+        <span>Web scraping</span>
+      </div>
+    </div>
+
+    <!-- 3) Data Platforms & Storage -->
+    <div style="margin-bottom:2rem;">
+      <p style="font-weight:600;color:#003366;margin-bottom:.5rem;">Data Platforms & Storage</p>
+      <div class="stack-list">
+        <span>Amazon S3</span><span>Google Cloud Storage</span><span>Parquet</span>
+        <span>BigQuery</span><span>Snowflake</span><span>Amazon Redshift</span><span>Amazon Athena</span>
+        <span>PostgreSQL</span><span>MongoDB</span><span>Cassandra</span><span>ClickHouse</span>
+      </div>
+    </div>
+
+    <!-- 4) ML, NLP & Knowledge Graphs -->
+    <div style="margin-bottom:2rem;">
+      <p style="font-weight:600;color:#003366;margin-bottom:.5rem;">ML, NLP & Knowledge Graphs</p>
+      <div class="stack-list">
+        <span>Generative AI</span><span>Large Language Models</span>
+        <span>OpenAI API</span><span>LangChain (RAG)</span><span>Hugging Face Transformers</span>
+        <span>NLTK</span><span>spaCy</span><span>scikit-learn</span>
+        <span>PyTorch</span><span>TensorFlow</span>
+        <span>SPARQL</span><span>AWS SageMaker</span>
+      </div>
+    </div>
+
+    <!-- 5) Analytics & Visualization -->
+    <div style="margin-bottom:2rem;">
+      <p style="font-weight:600;color:#003366;margin-bottom:.5rem;">Analytics & Visualization</p>
+      <div class="stack-list">
+        <span>Matplotlib</span><span>Seaborn</span><span>Plotly</span>
+        <span>Amazon QuickSight</span><span>Apache Superset</span>
+      </div>
+    </div>
+
+    <!-- 6) Cloud & DevOps -->
+    <div>
+      <p style="font-weight:600;color:#003366;margin-bottom:.5rem;">Cloud & DevOps</p>
+      <div class="stack-list">
+        <span>Amazon EC2</span><span>Google Compute Engine</span>
+        <span>Terraform (IaC)</span><span>Docker</span><span>Docker Compose</span>
+        <span>GitHub Actions (CI/CD)</span><span>IAM / RBAC</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · Personal Projects -->
+  <section id="personal-tab" class="tab-panel section container" data-aos="fade-up">
+    <h2 class="h2-title">Personal Projects</h2>
+    <p style="margin-bottom:1rem;font-size:14px;color:#555">All code available on GitHub.</p>
+
+    <div class="filter-bar" id="personal-filters">
+      <button class="filter-btn active" data-group="all">All</button>
+      <button class="filter-btn" data-group="fitness">Fitness</button>
+      <button class="filter-btn" data-group="nutrition">Nutrition</button>
+    </div>
+
+    <div class="project-grid" id="personal-projects">
+      <!-- Fitness Project -->
+      <div class="project-card" data-group="fitness">
+        <img src="projects/fitness/cover.jpg" alt="Hybrid Fitness Data Pipeline">
+        <div class="project-body">
+          <h3>Hybrid Fitness Data Pipeline</h3>
+          <span class="sector">Fitness</span>
+          <p>Real-time and batch pipeline for workout tracking, enrichment, and analytics using Kafka, MongoDB, Redshift, Prefect, and QuickSight.</p>
+
+          <div class="project-results">
+            <p><strong>Dashboard Structure:</strong></p>
+
+            <p><strong>1. Filters Panel</strong></p>
+            <img src="projects/fitness/1filters.png" alt="Filters Panel">
+            <p>Interactive filters for Body Part, Equipment, Exercise Type, and Exercise Level allow analysts to slice the dataset for deeper exploration.</p>
+
+            <p><strong>2. Key Performance Indicators (KPIs)</strong></p>
+            <img src="projects/fitness/2kpis.png" alt="Key Performance Indicators">
+            <p>KPI tiles show Total Exercises (866), Average Calories Burned per Hour per kg (6.04 kcal), and Average Exercise Rating (7.87).</p>
+
+            <p><strong>3. Calories Burned by Category</strong></p>
+            <img src="projects/fitness/3averagecalories.png" alt="Calories Burned by Category">
+            <p>Bar charts display average kcal/hour/kg by Exercise Type, Body Part, and Equipment.</p>
+
+            <p><strong>4. Exercise Ratings by Category</strong></p>
+            <img src="projects/fitness/4averageexerciserating.png" alt="Exercise Ratings by Category">
+            <p>Ratings broken down by Difficulty Level and Body Part to identify user preferences across workout types.</p>
+          </div>
+
+          <div class="tags">
+            <span class="tag">Python</span><span class="tag">Poetry</span><span class="tag">Apache Kafka</span>
+            <span class="tag">Prefect</span><span class="tag">MongoDB</span><span class="tag">Amazon Redshift</span>
+            <span class="tag">Amazon S3</span><span class="tag">Amazon EC2</span><span class="tag">Docker Compose</span>
+            <span class="tag">GitHub Actions</span><span class="tag">Amazon QuickSight</span>
+          </div>
+          <a href="https://github.com/jmdu99/Fitness-Project" target="_blank" rel="noopener" class="btn">View code</a>
+        </div>
+      </div>
+
+      <!-- Nutrition Project -->
+      <div class="project-card" data-group="nutrition">
+        <img src="projects/nutrition/cover.jpg" alt="Hybrid Nutrition Data Pipeline">
+        <div class="project-body">
+          <h3>Hybrid Nutrition Data Pipeline</h3>
+          <span class="sector">Nutrition</span>
+          <p>Real-time and batch pipeline for food data enrichment and analysis using Kafka, OpenAI API, Cassandra, ClickHouse, Dagster, and Superset.</p>
+
+          <div class="project-results">
+            <p><strong>Dashboard Structure:</strong></p>
+
+            <p><strong>1. Tab Navigation (Quantitative / Textual)</strong></p>
+            <img src="projects/nutrition/1tabs.png" alt="Tab Navigation">
+            <p>Tabs switch between Quantitative Data and OpenAI Text Insights.</p>
+
+            <p><strong>2. Macronutrient & Sodium Analysis</strong></p>
+            <img src="projects/nutrition/tab1imp.png" alt="Macronutrient & Sodium Analysis">
+            <p>Interactive bar charts compare calories, protein, carbs, fat per 100 g and sodium content by food item.</p>
+
+            <p><strong>3. AI Descriptions & Preparation Tips</strong></p>
+            <img src="projects/nutrition/tab2.png" alt="AI Descriptions & Preparation Tips">
+            <p>OpenAI-generated descriptions provide ingredient breakdowns and cooking advice.</p>
+
+            <p><strong>4. Best Pairings Word Cloud</strong></p>
+            <img src="projects/nutrition/wordcloud.png" alt="Best Pairings Word Cloud">
+            <p>A word cloud of common ingredient pairings (e.g. Salad, Pasta, Polenta, Couscous, Eggs).</p>
+          </div>
+
+          <div class="tags">
+            <span class="tag">Python</span><span class="tag">Poetry</span><span class="tag">Apache Kafka</span>
+            <span class="tag">Dagster</span><span class="tag">Cassandra</span><span class="tag">ClickHouse</span>
+            <span class="tag">Docker Compose</span><span class="tag">Google Cloud Compute Engine</span>
+            <span class="tag">GitHub Actions</span><span class="tag">Apache Superset</span><span class="tag">OpenAI API</span>
+          </div>
+          <a href="https://github.com/jmdu99/Nutrition-Project" target="_blank" rel="noopener" class="btn">View code</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · Client Projects -->
+  <section id="client-tab" class="tab-panel section container" data-aos="fade-up">
+    <h2 class="h2-title">Client Projects</h2>
+
+    <div class="filter-bar" id="client-filters">
+      <button class="filter-btn active" data-group="all">All</button>
+      <button class="filter-btn" data-group="healthtech">HealthTech</button>
+      <button class="filter-btn" data-group="edtech">EdTech</button>
+    </div>
+
+    <div class="project-grid" id="client-projects">
+      <!-- HealthTech Project -->
+      <div class="project-card" data-group="healthtech">
+        <img src="client/ehealth/architecture.png" alt="Hybrid Batch + Streaming IoT/Legacy/PostgreSQL">
+        <div class="project-body">
+          <h3>Hybrid Batch and Streaming Pipeline for IoT, Legacy, and PostgreSQL Data Integration</h3>
+          <span class="sector">HealthTech</span>
+          <p>
+            Automated pipelines using Apache NiFi, Kafka, Spark Streaming, Airflow, and dbt, centralizing data in Snowflake to improve accessibility and enable analytics and AI.
+          </p>
+          <div class="tags">
+            <span class="tag">Python</span><span class="tag">SQL</span><span class="tag">Apache NiFi</span>
+            <span class="tag">Apache Kafka</span><span class="tag">Spark Streaming</span><span class="tag">Apache Airflow</span>
+            <span class="tag">dbt</span><span class="tag">Amazon S3</span><span class="tag">Snowflake</span>
+            <span class="tag">PostgreSQL</span><span class="tag">Docker Compose</span><span class="tag">Terraform</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- EdTech Project -->
+      <div class="project-card" data-group="edtech">
+        <img src="client/edtech/architecture.png" alt="Batch + Streaming LMS/SIS/SaaS/Logs">
+        <div class="project-body">
+          <h3>Batch and Streaming Pipelines for LMS, SIS, SaaS, and Log Data Integration</h3>
+          <span class="sector">EdTech</span>
+          <p>
+            Pipelines with Fivetran, Spark (Dataproc), Beam (Dataflow), and Cloud Composer (Airflow), centralizing data in BigQuery to streamline ingestion and access.
+          </p>
+          <div class="tags">
+            <span class="tag">Python</span><span class="tag">Apache Spark</span><span class="tag">Apache Beam</span>
+            <span class="tag">Apache Airflow</span><span class="tag">Google Cloud Storage</span>
+            <span class="tag">BigQuery</span><span class="tag">Docker Compose</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · Work With Me -->
+  <section id="hire-tab" class="tab-panel section container" data-aos="fade-up">
+    <h2 class="h2-title">Work With Me</h2>
+
+    <h3 style="font-size:18px; color:#003366; margin-bottom:1rem;">🎯 My mission</h3>
+    <ul class="spaced" style="list-style:disc outside; margin-left:1.5rem; font-size:16px; color:#555; margin-bottom:2rem;">
+      <li>After working across different countries, sectors, and data domains, my purpose is to join projects that improve someone’s life, even if it’s just one person.</li>
+      <li>Since February 2025, I’ve focused mainly on health, wellness, and education initiatives.</li>
+      <li>I seek long-term collaborations with people who share this sense of purpose and value authentic relationships.</li>
+      <li>I remain open to other sectors, as every project is an opportunity to learn and move closer to my goal: helping as many people as possible enhance their quality of life.</li>
+    </ul>
+
+    <h3 style="font-size:18px; color:#003366; margin-bottom:1rem;">📊 What I offer</h3>
+
+    <div style="margin-bottom:2rem;">
+      <h3 style="font-size:18px; color:#003366; margin-bottom:1rem;">Not the right fit if…</h3>
+      <ul class="spaced" style="list-style:disc outside; margin-left:1.5rem; font-size:16px; margin-bottom:0;">
+        <li>You only need dashboards or data science models</li>
+        <li>Your project is 100% BI or AI-focused</li>
+        <li>You're looking for insights, not infrastructure</li>
+      </ul>
+    </div>
+
+    <div style="margin-bottom:2rem;">
+      <h3 style="font-size:18px; color:#003366; margin-bottom:1rem;">Perfect fit if you need…</h3>
+      <ul class="work-list spaced" style="list-style:none; padding-left:0; display:grid; gap:0.75rem;">
+        <li><span style="color:#2E7D32; font-weight:600;">✓</span>Clean and validate your data automatically (Python, SQL, dbt…)</li>
+        <li><span style="color:#2E7D32; font-weight:600;">✓</span>Build ETL/ELT pipelines that are fast, modular, and easy to maintain</li>
+        <li><span style="color:#2E7D32; font-weight:600;">✓</span>Automate the full flow from ingestion to final destination</li>
+        <li><span style="color:#2E7D32; font-weight:600;">✓</span>Set up real-time pipelines with Kafka, Spark, Scala…</li>
+        <li><span style="color:#2E7D32; font-weight:600;">✓</span>Design a robust data architecture for BI and ML</li>
+      </ul>
+      <p style="font-size:16px; margin-top:0.75rem;">
+        👉 If your project is about reliable, scalable data systems, I can help.
+      </p>
+    </div>
+
+    <div style="margin-bottom:2rem;">
+      <h3 style="font-size:18px; color:#003366; margin-bottom:1rem;">Let’s connect</h3>
+      <ul class="spaced" style="list-style:disc outside; margin-left:1.5rem; font-size:16px; margin-bottom:0;">
+        <li>Got a question?</li>
+        <li>Need help with your data flow?</li>
+        <li>Not sure where to start?</li>
+      </ul>
+      <p style="font-size:16px; margin-top:1rem; margin-bottom:0.5rem;">
+        📧 <a href="mailto:jm.diaz.urraco@gmail.com">jm.diaz.urraco@gmail.com</a>
+      </p>
+      <p style="font-size:16px;">
+        🔗 <a href="https://www.linkedin.com/in/jm-diaz-urraco/?locale=en_US" target="_blank" rel="noopener">My LinkedIn</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({ duration:600, once:true });
+
+    // Mobile menu
+    const toggleBtn = document.getElementById('nav-toggle');
+    const navLinksWrapper = document.getElementById('nav-links');
+    if (toggleBtn) toggleBtn.addEventListener('click', () => navLinksWrapper.classList.toggle('open'));
+
+    // Tabs
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        link.classList.add('active');
+        document.getElementById(link.dataset.tab).classList.add('active');
+      });
+    });
+
+    // Random “people online” pop-up
+    const popup = document.getElementById('live-popup');
+    function updatePopup(){
+      const n = Math.floor(Math.random()*7)+2;
+      popup.textContent = `👀 ${n} people online. Welcome!`;
+      popup.style.display = 'block';
+      setTimeout(() => popup.style.display = 'none', 5000);
+      setTimeout(updatePopup, Math.random()*(35000-25000)+25000);
+    }
+    updatePopup();
+
+    // Filters
+    function initFilters(barId, gridId){
+      const buttons = document.getElementById(barId).querySelectorAll('.filter-btn');
+      const cards = document.getElementById(gridId).children;
+      buttons.forEach(btn => btn.addEventListener('click', () => {
+        buttons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const grp = btn.dataset.group;
+        [...cards].forEach(c => c.style.display = (grp==='all' || c.dataset.group===grp) ? '' : 'none');
+      }));
+    }
+    initFilters('personal-filters','personal-projects');
+    initFilters('client-filters','client-projects');
+  </script>
+</body>
+</html>
